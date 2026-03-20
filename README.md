@@ -159,6 +159,14 @@ More stacks can be added by creating a new file in `_team-blueprints/stacks/`.
 
 The generated agents, skills, commands, rules, and hooks are **working examples** — functional but intentionally minimalistic. They are meant as a solid starting point, not a final product. You are encouraged to customize, extend, or rewrite any of them to fit your team's workflows, conventions, and quality standards.
 
+### Upgrading Your Agents After Setup
+
+Once `/setup` has generated your team, you can make your agents significantly smarter by asking Claude Code to research and upgrade them for your specific domain. Try prompting:
+
+> Research current best practices, tools, and expert-level techniques relevant to this project's stack and domain. Then update each agent definition in `.claude/agents/` to be more knowledgeable, more precise, and more effective — a true specialist in this project's field. Upgrade their working protocols, checklists, examples, and reasoning instructions based on what you find.
+
+This turns the generic starting agents into domain-aware experts — for example, your security reviewer learns about vulnerabilities specific to your framework, your tester learns your stack's testing idioms, and your architect understands your ecosystem's architectural patterns. You can repeat this any time your project evolves or you want deeper expertise in a specific area.
+
 ## Architecture
 
 The bootstrap works in three layers:
