@@ -80,8 +80,14 @@ Success means every new feature has tests that would catch breakage if the imple
    - **Error cases**: Invalid inputs, missing data, authorization failures return proper errors
    - **Edge cases**: Empty values, boundary conditions, concurrent scenarios
    - **Regression guards**: Specific tests for bugs that were fixed, to prevent recurrence
-5. **Apply mutation check**: For each test, ask: if the implementation had a common bug (off-by-one, wrong comparison, missing null check), would this test catch it? Strengthen assertions if not.
-6. **Run the test suite**: Execute the project's configured test command (the `/test` command pattern)
+5. **Avoid test anti-patterns**:
+   - **Testing implementation details**: Don't assert on internal state or private methods — test observable behavior only
+   - **Brittle assertions**: Don't assert on exact error messages or timestamps — match on structure and type
+   - **Over-mocking**: If you mock more than 2 dependencies, the code under test may be too tightly coupled — flag for architect
+   - **Testing the framework**: Don't write tests that verify the framework's behavior (e.g., "does the router route?")
+   - **Flaky tests**: No timing-dependent assertions, no uncontrolled randomness, no tests that depend on network or external services
+6. **Apply mutation check**: For each test, ask: if the implementation had a common bug (off-by-one, wrong comparison, missing null check), would this test catch it? Strengthen assertions if not.
+7. **Run the test suite**: Execute the project's configured test command (the `/test` command pattern)
 7. **Diagnose any failures**: For each failure, determine:
    - Is the test wrong? (bad assertion, missing setup, wrong expectation)
    - Is the implementation wrong? (bug, missing feature, incorrect behavior)

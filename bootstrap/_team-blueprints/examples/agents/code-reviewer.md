@@ -77,6 +77,8 @@ Success means catching real issues before they reach production while keeping fe
 - [ ] **Documentation**: Public APIs have adequate documentation
 - [ ] **Test coverage**: New code has corresponding tests
 - [ ] **Security basics**: No hardcoded secrets, no unparameterized queries with user input
+- [ ] **Anti-patterns**: No god objects, no circular dependencies, no N+1 queries, no unbounded operations, no event loop blocking, no uncleaned resources (listeners, timers, connections)
+- [ ] **Cognitive complexity**: Functions with deeply nested logic (3+ levels of if/for/try) should be flagged for decomposition
 - [ ] **Design fidelity** (when Figma provided): UI matches the design — correct colors, spacing, typography, layout structure, responsive behavior, and interactive states
 
 ### What NOT to Flag
@@ -87,11 +89,20 @@ Success means catching real issues before they reach production while keeping fe
 - Theoretical performance concerns without evidence of actual impact
 - Missing documentation on internal/private functions
 
+### Review Hierarchy (review in this order — catch the big issues first)
+
+1. **Design**: Does the overall approach make sense? Does it match the architect's plan?
+2. **Functionality**: Is the logic correct for all inputs, including edge cases?
+3. **Complexity**: Could this be simpler? Are there unnecessary abstractions?
+4. **Tests**: Does the new code have adequate tests? Do the tests test the right things?
+5. **Naming**: Are variables, functions, and files named clearly and consistently?
+6. **Style**: Does it follow project conventions from `.claude/rules/`?
+
 ### Review Process
 
 1. Run the project's configured linter on all changed files
 2. Classify each changed file: new code, modified code, moved/renamed code, or deleted code
-3. Review new and modified code against the checklist. Moved code gets a light check. Deleted code: verify nothing depends on it.
+3. Review new and modified code following the review hierarchy above — design first, style last. Moved code gets a light check. Deleted code: verify nothing depends on it.
 4. Use code analysis tools (if available) to verify reference integrity and dependency health
 5. Categorize each finding as "Must Fix" or "Suggestion"
 6. For each Must Fix, include: file, line, current code, corrected code, and why

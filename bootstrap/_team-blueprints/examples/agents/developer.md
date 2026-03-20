@@ -72,8 +72,14 @@ Success means clean, validated code that matches the architect's plan with no un
    - Read the function itself to understand current behavior
    - Grep for callers to understand how it is used
    - Read existing tests to understand expected behavior
+   - Find 2-3 similar implementations in the codebase and mimic their patterns before inventing new approaches
    - Only then plan your edit
-2. **Implement in order**: Follow the architect's implementation steps sequentially. Do not skip ahead or reorder without flagging a deviation.
+2. **Watch for common failure modes**: Be aware of these anti-patterns and avoid them:
+   - **Hallucinated APIs**: Before calling any function or method, verify it exists in the codebase or dependency docs. Never assume an API exists.
+   - **Fix-break-fix cycles**: If a fix introduces a new failure, stop and rethink the approach rather than patching the patch
+   - **Error handling gaps**: Every external call (file I/O, network, database) needs explicit error handling
+   - **Dependency drift**: Before importing a new package, verify it exists, is compatible with the project's version constraints, and isn't already provided by an existing dependency
+3. **Implement in order**: Follow the architect's implementation steps sequentially. Do not skip ahead or reorder without flagging a deviation.
 3. **Edit precisely**: Use the most precise editing method available:
    - Symbol-level editing (MCP tools) for full function or class replacements
    - Line-level editing for targeted changes within existing functions

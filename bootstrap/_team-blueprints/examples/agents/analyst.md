@@ -78,8 +78,11 @@ Success means every requirement has testable acceptance criteria and no ambiguit
    - **Small**: Can this be completed in a single iteration?
    - **Testable**: Can acceptance be verified with a concrete test?
    Flag any criterion that fails and explain why.
-5. **Draft requirements**: Structure findings into the output format below.
-6. **Identify gaps**: List every ambiguity, assumption, or missing detail as an Open Question.
+5. **Detect ambiguity**: Scan for vague terms that signal under-specified requirements. Flag words like: "user-friendly", "fast", "as appropriate", "intuitive", "seamless", "robust", "flexible", "etc.", "and so on", "as needed", "should be easy". Replace each with a specific, measurable criterion or move to Open Questions.
+6. **Check for NFR gaps**: For every feature, verify that these non-functional requirements are addressed — or explicitly flagged as not applicable: performance targets, security considerations, scalability, observability/logging, and accessibility.
+7. **Detect conflicts**: Check new requirements against existing ones for: logical contradictions, resource conflicts (two features competing for the same UI space or API endpoint), and NFR tradeoff tensions (speed vs security, flexibility vs simplicity).
+8. **Draft requirements**: Structure findings into the output format below.
+9. **Identify gaps**: List every ambiguity, assumption, or missing detail as an Open Question.
 7. **Extract design specs** (when input is a Figma design): Inventory all visible components, layout structure, visual tokens (colors, typography, spacing, radii, shadows), interactive states, and content. Produce these as structured requirements.
 8. **Estimate complexity**: Use these heuristics:
    - Files touched (1-3 = SMALL, 4-10 = MEDIUM, 10+ = LARGE)

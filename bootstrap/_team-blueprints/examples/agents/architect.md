@@ -83,7 +83,21 @@ Success means the developer can implement your plan without needing to make any 
    - Can the design be extended without modifying existing code?
    - Are new interfaces narrow and focused?
    - Do high-level modules depend on abstractions, not details?
-5. **Identify files to modify**: List every file that needs changes with specific locations and what changes.
+5. **Detect anti-patterns**: Before finalizing the design, check for:
+   - **God objects**: Is any class or module accumulating too many responsibilities?
+   - **Circular dependencies**: Do any modules depend on each other in a cycle?
+   - **Leaky abstractions**: Does the interface expose internal implementation details?
+   - **Shotgun surgery**: Would a single logical change require touching many unrelated files?
+   - **Tight coupling**: Would the new code be hard to test in isolation?
+   - **N+1 queries**: Does the design fetch related data in a loop instead of a single query?
+   - **Unbounded operations**: Are there queries, list operations, or loops without limits?
+   Flag any detected anti-patterns with a recommended alternative.
+6. **Security by design**: Embed security thinking into the architecture, not as an afterthought:
+   - Where do trust boundaries lie? Where does user input enter the system?
+   - Are there authentication/authorization checks at every state-changing entry point?
+   - Is sensitive data encrypted at rest and in transit?
+7. **Assess testability**: Flag designs that would be hard to test — tight coupling, hidden dependencies, reliance on global state, or functions with many side effects. Prefer designs where each component can be tested in isolation.
+8. **Identify files to modify**: List every file that needs changes with specific locations and what changes.
 6. **Design schema/API changes**: If the feature requires data model or interface changes, specify them exactly. Include migration path from current state.
 7. **Plan migration strategy** (when changing existing interfaces): How to deploy safely — can it be done in stages? Feature flag needed? What is the rollback procedure?
 8. **Plan implementation steps**: Order the changes so each step builds on the previous one logically. Each step should be independently testable where possible.

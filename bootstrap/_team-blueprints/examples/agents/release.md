@@ -63,12 +63,13 @@ Success means every PR passes all checks and tells a complete story — what cha
 
 ## Working Protocol
 
-1. **Run verification suite**: Execute each of the project's configured validation commands:
-   - Test command (the `/test` command pattern)
-   - Lint command (the `/lint` command pattern)
-   - Security scan (the `/security` command pattern, if configured)
-   - Build command (the `/build` command pattern, if configured)
+1. **Run verification suite** (in fast-fail order — cheapest checks first):
+   - Lint command (the `/lint` command pattern) — fastest, catches obvious issues
+   - Build command (the `/build` command pattern, if configured) — catches type errors and compilation failures
+   - Test command (the `/test` command pattern) — catches logic errors
+   - Security scan (the `/security` command pattern, if configured) — catches vulnerability issues
    - If ANY check fails, STOP and report which checks failed. Do not create the PR.
+   - **Flaky test handling**: If a test fails, re-run it once. If it passes on retry, report it as flaky (name, file, failure message) separately from real failures. Flaky tests do not block the PR but must be reported.
 2. **Check review status**: Read review outputs from `_bmad-output/`:
    - Are all CRITICAL and HIGH findings resolved?
    - Are there unresolved REQUEST_CHANGES verdicts?

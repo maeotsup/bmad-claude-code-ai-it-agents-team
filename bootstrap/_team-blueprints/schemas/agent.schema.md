@@ -187,6 +187,7 @@ To prevent collisions, each agent has a reserved code namespace:
 - The section header is ALWAYS `## Working Protocol` — not "Implementation Protocol", "Test Patterns", "Review Checklist", or any variant
 - Content varies by role but the header is uniform
 - **Must include structured reasoning steps**, not just checklists — describe WHAT to think about at each step
+- **Must include anti-pattern detection** relevant to the role (design anti-patterns for architect, code anti-patterns for reviewer, test anti-patterns for tester, common failure modes for developer)
 - For review agents: must include explicit guidance on what NOT to flag (false positive suppression)
 - For review agents: include a checklist (using `- [ ]` format)
 - For the developer: include implementation steps with verification after each logical change
