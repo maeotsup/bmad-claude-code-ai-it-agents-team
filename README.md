@@ -155,6 +155,10 @@ your-project/
 
 More stacks can be added by creating a new file in `_team-blueprints/stacks/`.
 
+## Customizing the Output
+
+The generated agents, skills, commands, rules, and hooks are **working examples** — functional but intentionally minimalistic. They are meant as a solid starting point, not a final product. You are encouraged to customize, extend, or rewrite any of them to fit your team's workflows, conventions, and quality standards.
+
 ## Architecture
 
 The bootstrap works in three layers:
