@@ -47,7 +47,7 @@ tools:
 
 ## Section Order (strict)
 
-Every agent file contains exactly these 10 sections, in this order:
+Every agent file contains exactly these 12 sections, in this order:
 
 ### 1. Title (required, 1 line)
 
@@ -92,7 +92,7 @@ You are {Name}, a {role description}. You {primary function in one sentence}.
   - Reviewers: cite line numbers, categorize findings
   - Release: checklist-driven, reports URLs
 
-### 4. Principles (required, 4-6 numbered items)
+### 4. Principles (required, 5-7 numbered items)
 
 ```markdown
 ## Principles
@@ -107,8 +107,26 @@ You are {Name}, a {role description}. You {primary function in one sentence}.
 - BAD: "Write good code" — too vague
 - GOOD: "Follow the plan: implement exactly what the architect specified. Flag deviations."
 - No generic platitudes — every principle should be falsifiable (you could violate it)
+- **Must include** a calibration principle about confidence thresholds (e.g., "only flag issues you are >80% confident about")
+- **Must include** a context-scaling principle (e.g., "adapt review depth to change scope — 1 file gets a quick review, 20 files gets a systematic audit")
 
-### 5. Capabilities (required, table with 4-6 rows)
+### 5. Reasoning Protocol (required, 3-5 items)
+
+```markdown
+## Reasoning Protocol
+- **Think step by step**: {When and how to use chain-of-thought reasoning for this role}
+- **Calibration**: {Confidence threshold and how to handle uncertainty}
+- **Context scaling**: {How to adapt depth based on change size — 1-file fix vs 20-file refactor}
+```
+
+**Rules**:
+- Must include explicit chain-of-thought instructions for the agent's key decision points
+- Must include a calibration rule — what confidence level is required before reporting a finding or making a recommendation
+- Must include context-scaling guidance — small changes get light treatment, large changes get systematic deep analysis
+- 3-5 items total
+- Instructions should be specific to the role (what a reviewer thinks about differs from what a developer thinks about)
+
+### 6. Capabilities (required, table with 4-6 rows)
 
 ```markdown
 ## Capabilities
@@ -140,23 +158,26 @@ To prevent collisions, each agent has a reserved code namespace:
 | accessibility | TA, LA, KA, CA, SA, FA |
 | release | VF, BR, PR, MC |
 
-### 6. Activation Protocol (required, numbered steps)
+### 7. Activation Protocol (required, numbered steps)
 
 ```markdown
 ## Activation Protocol
 1. Load project config from `_bmad/config/config.yaml`
 2. Read `CLAUDE.md` for project context
-3. {Role-specific setup steps}
+3. Check `_bmad-output/` for prior decisions relevant to this task
+4. {Role-specific setup steps}
 ```
 
 **Rules**:
 - First two steps are always the same (load config, read CLAUDE.md)
+- Third step: check for prior decisions in `_bmad-output/` to avoid contradicting previous pipeline stages
 - Subsequent steps are role-specific but technology-agnostic
+- When the agent receives input from a predecessor agent, read that output explicitly
 - Reference paths from the boilerplate structure (`_bmad/`, `.claude/rules/`, `_bmad-output/`)
 - Do NOT reference project-specific file names (no `app.py`, `models.py`, etc.)
-- 4-7 steps total
+- 5-8 steps total
 
-### 7. Working Protocol (required, role-specific content)
+### 8. Working Protocol (required, role-specific content)
 
 ```markdown
 ## Working Protocol
@@ -165,16 +186,38 @@ To prevent collisions, each agent has a reserved code namespace:
 **Rules**:
 - The section header is ALWAYS `## Working Protocol` — not "Implementation Protocol", "Test Patterns", "Review Checklist", or any variant
 - Content varies by role but the header is uniform
+- **Must include structured reasoning steps**, not just checklists — describe WHAT to think about at each step
+- For review agents: must include explicit guidance on what NOT to flag (false positive suppression)
 - For review agents: include a checklist (using `- [ ]` format)
-- For the developer: include implementation steps
-- For the tester: include test writing methodology
+- For the developer: include implementation steps with verification after each logical change
+- For the tester: include test writing methodology with test selection rationale
 - Reference the project's configured commands generically:
   - "the project's configured linter" (not "ruff" or "eslint")
   - "the project's test runner" (not "pytest" or "jest")
   - "the project's security scanner" (not "bandit" or "npm audit")
   - "the `/test` command" or "the `/lint` command" when referencing slash commands
 
-### 8. Output Format (required)
+### 9. Examples (required, 2-3 pairs)
+
+```markdown
+## Examples
+
+### Good Finding / Deliverable
+<concrete example of a good output for this agent — calibrated, specific, actionable>
+
+### Bad Finding / Deliverable
+<example of a bad output and why it's bad — vague, false positive, uncalibrated>
+```
+
+**Rules**:
+- 2-3 concrete examples showing good vs bad output for this agent's role
+- Examples should illustrate calibration — what to flag vs what to skip
+- Examples should be technology-agnostic but specific enough to be useful
+- Each example is brief (3-6 lines)
+- Good examples show the right level of confidence, specificity, and actionability
+- Bad examples show common failure modes: vague findings, false positives, uncalibrated severity, missing context
+
+### 10. Output Format (required)
 
 ```markdown
 ## Output Format
@@ -184,10 +227,12 @@ To prevent collisions, each agent has a reserved code namespace:
 - Contains a markdown template showing the exact structure of this agent's deliverable
 - Specifies the file save location using `_bmad-output/` paths
 - For review agents: must include a verdict line (PASS/FAIL or APPROVE/REQUEST_CHANGES)
+- For agents that receive predecessor output: reference the input document in frontmatter
+- Fix descriptions must be structured so downstream agents can act on them directly without interpretation
 - The template uses generic field names — no project-specific content
 - The section header is ALWAYS `## Output Format` — not "PR Template", "Report Format", or any variant
 
-### 9. Constraints (required, 4-6 bullets)
+### 11. Constraints (required, 4-6 bullets)
 
 ```markdown
 ## Constraints
@@ -204,7 +249,7 @@ To prevent collisions, each agent has a reserved code namespace:
   - Decision authority limit: what decisions this agent cannot make
 - 4-6 constraints total
 
-### 10. Escalation (required, 2-4 bullets)
+### 12. Escalation (required, 2-4 bullets)
 
 ```markdown
 ## Escalation
@@ -219,12 +264,33 @@ To prevent collisions, each agent has a reserved code namespace:
   - When repeated attempts fail
 - Actions should be: ask the user, request revision from another agent, or stop and report
 
+## Structural Principles
+
+### Inter-Agent Communication
+
+- Agent outputs must be structured so the next agent in the pipeline can consume them directly
+- Fix descriptions from reviewers must be specific enough for the developer to implement without interpretation — include file path, line, current code, and corrected code
+- When an agent's finding crosses into another agent's domain (e.g., a code reviewer spots a security issue), note which agent should handle it rather than trying to address it yourself
+
+### Memory Awareness
+
+- Agents must check `_bmad-output/` for prior decisions before making contradicting recommendations
+- When an agent encounters a decision already made by a predecessor, reference it rather than re-deciding
+- If a prior decision appears wrong in light of new information, flag the conflict explicitly rather than silently overriding
+
+### Graduated Autonomy
+
+When generating agents, the generator should embed these thresholds:
+- **Small/obvious** (typos, missing imports, lint auto-fixes): agent may proceed without confirmation
+- **Medium** (new functions, modified logic, test additions): one review gate before merge
+- **Large** (new modules, architecture changes, DB migrations, new dependencies): full pipeline with multiple reviews and explicit user approval
+
 ## Constraints on the Overall File
 
 | Constraint | Value |
 |------------|-------|
-| Target length | 80–120 lines (excluding frontmatter) |
-| Hard maximum | 150 lines |
+| Target length | 150–250 lines (excluding frontmatter) |
+| Hard maximum | 300 lines |
 | Project-specific technology references | NONE (no Python, React, C#, etc.) |
 | Project-specific file references | NONE (no app.py, models.py, etc.) |
 | Emojis | NONE |
@@ -236,12 +302,14 @@ To prevent collisions, each agent has a reserved code namespace:
 After generating an agent file, verify:
 
 - [ ] Frontmatter has all required fields with valid values
-- [ ] All 10 sections present, in the correct order
-- [ ] Section headers match exactly (## Overview, ## Working Protocol, etc.)
+- [ ] All 12 sections present, in the correct order
+- [ ] Section headers match exactly (## Overview, ## Reasoning Protocol, ## Examples, etc.)
 - [ ] No project-specific technology or file references
 - [ ] Capability codes are unique across the full agent team
 - [ ] Tools list matches the role type from the Tool Assignment table
+- [ ] Reasoning Protocol includes chain-of-thought, calibration threshold, and context-scaling
+- [ ] Examples section has 2-3 good/bad pairs illustrating calibrated output
 - [ ] Constraints include scope boundary, tool restriction, and authority limit
 - [ ] Escalation covers: insufficient input, scope exceeded, repeated failure
-- [ ] Total line count is within 80–150 range
+- [ ] Total line count is within 150–300 range
 - [ ] Voice is consistently second person, present tense
