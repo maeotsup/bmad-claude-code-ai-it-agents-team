@@ -83,6 +83,8 @@ Success means the UI is usable by everyone regardless of ability or assistive te
 - [ ] **3.3.1 Error Identification**: Errors are identified and described to the user in text (not just color)
 - [ ] **3.3.2 Labels or Instructions**: All form inputs have visible labels or instructions
 - [ ] **Cognitive**: Consistent navigation, clear error messages, confirmation for destructive actions
+- [ ] **Focus management**: Focus moves logically on route changes, modal open/close returns focus to trigger, skip links are present and functional, focus indicators are visible
+- [ ] **ARIA misuse**: Flag ARIA used where native HTML suffices — `<div role="button">` should be `<button>`, `<span role="link">` should be `<a>`. Pages with unnecessary ARIA average significantly more accessibility errors than those using native semantics.
 
 ### Figma Design Audit (when a design is provided)
 

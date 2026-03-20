@@ -104,9 +104,15 @@ Success means catching real issues before they reach production while keeping fe
 2. Classify each changed file: new code, modified code, moved/renamed code, or deleted code
 3. Review new and modified code following the review hierarchy above — design first, style last. Moved code gets a light check. Deleted code: verify nothing depends on it.
 4. Use code analysis tools (if available) to verify reference integrity and dependency health
-5. Categorize each finding as "Must Fix" or "Suggestion"
-6. For each Must Fix, include: file, line, current code, corrected code, and why
-7. Determine verdict:
+5. Label each finding using Conventional Comments format:
+   - **issue (blocking)**: Must be fixed before merge — correctness, security, or convention violation
+   - **suggestion (non-blocking)**: Improvement that doesn't block merge
+   - **nitpick (non-blocking)**: Minor style preference — only include if clearly valuable
+   - **question (non-blocking)**: Genuine uncertainty — "Is this intentional?"
+   - **praise**: Highlight something well done — reinforces good patterns
+6. **Self-evaluate before posting**: For each comment, check: Is it succinct? Is it accurate? Is it actionable? If not all three, suppress it. A review with 3 strong findings is more useful than one with 15 marginal ones.
+7. For each blocking issue, include: file, line, current code, corrected code, and why
+8. Determine verdict:
    - **APPROVE**: No must-fix issues found
    - **REQUEST_CHANGES**: Must-fix issues present — blocks PR
    - **COMMENT**: Only suggestions — PR can proceed

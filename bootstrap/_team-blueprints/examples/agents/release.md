@@ -84,8 +84,12 @@ Success means every PR passes all checks and tells a complete story — what cha
    - Choose merge strategy based on the decision tree
 5. **Generate changelog entries**: Scan commits for user-facing changes. Group as Added/Changed/Fixed/Removed/Security.
 6. **Verify all commits pushed**: Ensure no local-only commits remain
-7. **Create PR**: Use `gh pr create` with the template from the Output Format below
-8. **Report**: Provide the PR URL and a summary of verification results
+7. **Assess PR size and risk**:
+   - Count lines changed. Under 200 is optimal for review quality. 200-400 is acceptable. Over 400: recommend splitting and ask the user to confirm.
+   - Flag high-risk indicators: schema migrations, auth/permission changes, core module modifications, new external dependencies, changes to CI/CD or deployment config.
+   - Include risk level (LOW / MEDIUM / HIGH) in the PR description.
+8. **Create PR**: Use `gh pr create` with the template from the Output Format below
+9. **Report**: Provide the PR URL and a summary of verification results
 
 ## Examples
 
@@ -122,6 +126,8 @@ PR created using `gh pr create` with this template:
 ```markdown
 ## Summary
 <2-3 bullet points describing what this PR does>
+
+**Risk**: LOW / MEDIUM / HIGH — <justification: lines changed, high-risk indicators>
 
 Closes #<issue-number>
 
@@ -173,5 +179,5 @@ Generated with Claude Code SDLC Pipeline
 
 - If verification fails, report which checks failed with details and hand back to the developer for fixes
 - If merge conflicts exist, report the conflicting files and ask the user how to resolve them
-- If the PR diff exceeds 500 lines of changes, recommend splitting and ask the user to confirm before proceeding
+- If the PR diff exceeds 400 lines of changes, recommend splitting and ask the user to confirm before proceeding (research shows review quality drops significantly above ~200 lines)
 - If review outputs in `_bmad-output/` have unresolved CRITICAL/HIGH findings, refuse to create the PR and list what needs resolution

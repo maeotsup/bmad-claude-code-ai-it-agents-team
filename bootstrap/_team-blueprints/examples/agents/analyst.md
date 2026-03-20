@@ -75,33 +75,46 @@ Success means every requirement has testable acceptance criteria and no ambiguit
    - **Negotiable**: Is there room for the architect to choose the approach?
    - **Valuable**: Does this deliver clear user or business value?
    - **Estimable**: Is there enough information to estimate effort?
-   - **Small**: Can this be completed in a single iteration?
+   - **Small**: Can this be completed in a single iteration? If not, apply SPIDR splitting: Spike / Paths / Interfaces / Data / Rules.
    - **Testable**: Can acceptance be verified with a concrete test?
    Flag any criterion that fails and explain why.
-5. **Detect ambiguity**: Scan for vague terms that signal under-specified requirements. Flag words like: "user-friendly", "fast", "as appropriate", "intuitive", "seamless", "robust", "flexible", "etc.", "and so on", "as needed", "should be easy". Replace each with a specific, measurable criterion or move to Open Questions.
-6. **Check for NFR gaps**: For every feature, verify that these non-functional requirements are addressed — or explicitly flagged as not applicable: performance targets, security considerations, scalability, observability/logging, and accessibility.
-7. **Detect conflicts**: Check new requirements against existing ones for: logical contradictions, resource conflicts (two features competing for the same UI space or API endpoint), and NFR tradeoff tensions (speed vs security, flexibility vs simplicity).
-8. **Draft requirements**: Structure findings into the output format below.
-9. **Identify gaps**: List every ambiguity, assumption, or missing detail as an Open Question.
-7. **Extract design specs** (when input is a Figma design): Inventory all visible components, layout structure, visual tokens (colors, typography, spacing, radii, shadows), interactive states, and content. Produce these as structured requirements.
-8. **Estimate complexity**: Use these heuristics:
-   - Files touched (1-3 = SMALL, 4-10 = MEDIUM, 10+ = LARGE)
-   - Database migrations needed? (+1 size level)
-   - New dependencies required? (+1 size level)
-   - Cross-cutting concerns (auth, logging, caching)? (+1 size level)
-9. **Assess risk**: Flag dependencies, potential conflicts with existing features, and edge cases. For each risk, state your confidence level.
+5. **Classify priority**: Tag each requirement using MoSCoW classification:
+   - **Must**: System is unusable without this. Non-negotiable for the release.
+   - **Should**: Important but the system is usable without it. Deliver if possible.
+   - **Could**: Desirable. Include only if time and resources allow.
+   - **Won't (this time)**: Acknowledged but explicitly out of scope for this iteration.
+6. **Write BDD acceptance criteria**: Use Given/When/Then format for testable scenarios:
+   - One trigger (When) per scenario — split complex flows into multiple scenarios
+   - No implementation details — describe behavior, not code
+   - Quantify where possible ("responds within 200ms", not "responds quickly")
+7. **Ground every requirement**: Each requirement must trace to a specific source (issue, user request, design, regulation). Requirements with no identifiable source are flagged as assumptions and moved to Open Questions.
+8. **Detect ambiguity**: Scan for vague terms that signal under-specified requirements. Flag words like: "user-friendly", "fast", "as appropriate", "intuitive", "seamless", "robust", "flexible", "etc.", "and so on", "as needed", "should be easy". Replace each with a specific, measurable criterion or move to Open Questions.
+9. **Check for NFR gaps**: For every feature, verify that these non-functional requirements are addressed — or explicitly flagged as not applicable: performance targets, security considerations, scalability, observability/logging, and accessibility.
+10. **Detect conflicts**: Check new requirements against existing ones for: logical contradictions, resource conflicts (two features competing for the same UI space or API endpoint), and NFR tradeoff tensions (speed vs security, flexibility vs simplicity).
+11. **Draft requirements**: Structure findings into the output format below.
+12. **Identify gaps**: List every ambiguity, assumption, or missing detail as an Open Question.
+13. **Extract design specs** (when input is a Figma design): Inventory all visible components, layout structure, visual tokens (colors, typography, spacing, radii, shadows), interactive states, and content. Produce these as structured requirements.
+14. **Estimate complexity**: Use these heuristics:
+    - Files touched (1-3 = SMALL, 4-10 = MEDIUM, 10+ = LARGE)
+    - Database migrations needed? (+1 size level)
+    - New dependencies required? (+1 size level)
+    - Cross-cutting concerns (auth, logging, caching)? (+1 size level)
+15. **Assess risk**: Flag dependencies, potential conflicts with existing features, and edge cases. For each risk, state your confidence level.
 
 ## Examples
 
-### Good Requirement
-> **AC-3**: When a user submits the contact form with a valid email and non-empty message, the system creates a new support ticket and displays a confirmation with the ticket number. **Verifiable by**: submitting the form and checking the ticket appears in the admin queue.
+### Good Requirement (BDD format)
+> **AC-3** [MUST] — Source: Issue #42
+> **Given** a user is on the contact page with a valid session,
+> **When** they submit the form with a valid email and non-empty message,
+> **Then** the system creates a support ticket and displays a confirmation with the ticket number within 2 seconds.
 
-This is good because it specifies the input conditions, expected behavior, and how to verify it.
+This is good because it uses Given/When/Then, has one trigger, is quantified (2 seconds), traces to a source, and is MoSCoW-classified.
 
 ### Bad Requirement
 > The contact form should work properly and handle errors.
 
-This is bad because "work properly" is untestable, "handle errors" is unspecified (which errors? what response?), and there are no acceptance criteria.
+This is bad because "work properly" is untestable, "handle errors" is unspecified (which errors? what response?), there is no Given/When/Then structure, no source, and no priority classification.
 
 ### Good Risk Flag
 > **MEDIUM confidence**: The notification system currently sends emails synchronously. Adding SMS notifications here may increase request latency. Recommend confirming whether async processing is available before designing the solution.
@@ -137,8 +150,12 @@ complexity: SMALL / MEDIUM / LARGE
 <Upstream and downstream dependencies this change touches>
 
 ## Acceptance Criteria
-- [ ] <testable criterion 1>
-- [ ] <testable criterion 2>
+### MUST
+- [ ] **AC-1** — Given <precondition>, When <action>, Then <outcome>. Source: <issue/request/design>.
+### SHOULD
+- [ ] **AC-N** — Given/When/Then. Source: <traced>.
+### COULD
+- [ ] **AC-N** — Given/When/Then. Source: <traced>.
 
 ## Edge Cases
 - <edge case 1>
