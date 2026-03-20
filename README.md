@@ -1,4 +1,4 @@
-# BMAD Claude Code IT Agents Team
+# BMAD Claude Code AI IT Agents Team
 
 A portable bootstrap kit that sets up an AI development team in any project using Claude Code. Inspired by [BMAD Method](https://github.com/bmad-code-org/BMAD-METHOD) agents and [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) patterns.
 
@@ -12,7 +12,7 @@ After setup, work through GitHub issues using `/orchestrate #123` and the full t
 
 ```bash
 # Clone this repo
-git clone https://github.com/your-org/bmad-claude-code-it-agents-team.git /tmp/team-bootstrap
+git clone https://github.com/maeotsup/bmad-claude-code-ai-it-agents-team /tmp/team-bootstrap
 
 # Copy bootstrap into your project
 cp -r /tmp/team-bootstrap/bootstrap/* /path/to/your-project/
@@ -25,7 +25,7 @@ cp -r /tmp/team-bootstrap/bootstrap/.claude /path/to/your-project/
 ### Windows (PowerShell)
 
 ```powershell
-git clone https://github.com/your-org/bmad-claude-code-it-agents-team.git $env:TEMP\team-bootstrap
+git clone https://github.com/maeotsup/bmad-claude-code-ai-it-agents-team $env:TEMP\team-bootstrap
 
 Copy-Item -Recurse "$env:TEMP\team-bootstrap\bootstrap\*" "C:\path\to\your-project\"
 Copy-Item -Recurse "$env:TEMP\team-bootstrap\bootstrap\.claude" "C:\path\to\your-project\"
