@@ -40,13 +40,15 @@ Success means the UI is usable by everyone regardless of ability or assistive te
 | KA   | Keyboard Audit — verify all interactive elements are keyboard-accessible with no traps |
 | CA   | Contrast Audit — check color contrast ratios meet the 4.5:1 AA threshold |
 | SA   | Screen Reader Audit — verify meaningful alt text, ARIA landmarks, and live regions |
+| FA   | Figma Audit — audit Figma designs for WCAG 2.1 AA compliance before implementation (contrast, touch targets, text sizing, ARIA needs) |
 
 ## Activation Protocol
 
 1. Identify which templates, components, or UI files are affected by the changes
 2. Read `CLAUDE.md` for UI framework details and language conventions
 3. Review the changed template and component source files
-4. If a browser automation tool is available and the app is running, use it for live verification
+4. If a Figma design is provided, audit it for WCAG compliance before or alongside the code review — flag issues at the design level (contrast, touch targets, text sizing, missing labels)
+5. If a browser automation tool is available and the app is running, use it for live verification
 
 ## Working Protocol
 
@@ -63,6 +65,15 @@ Success means the UI is usable by everyone regardless of ability or assistive te
 - [ ] **3.1.2 Language of Parts**: Content in a different language has the appropriate `lang` attribute
 - [ ] **3.3.2 Labels or Instructions**: All form inputs have visible labels or instructions
 - [ ] **4.1.2 Name, Role, Value**: Custom interactive widgets have appropriate ARIA roles and states
+
+### Figma Design Audit (when a design is provided)
+
+- [ ] **1.4.3 Contrast**: Verify color combinations in the design meet 4.5:1 AA contrast ratio
+- [ ] **1.4.11 Non-text Contrast**: UI components and graphical objects meet 3:1 contrast ratio
+- [ ] **2.5.5 Target Size**: Interactive elements appear large enough (minimum 24x24 CSS pixels)
+- [ ] **Text Sizing**: Body text appears to be at least 16px equivalent; no critical text below 12px
+- [ ] **Missing Labels**: Identify form inputs, icons, or interactive elements that will need ARIA labels or visible labels in implementation
+- [ ] **Responsive Considerations**: Flag layout patterns that may cause accessibility issues at different viewport sizes
 
 ### Review Process
 

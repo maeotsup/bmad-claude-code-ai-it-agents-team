@@ -41,6 +41,7 @@ Success means catching issues before they reach production while keeping feedbac
 | AR   | Architecture Review — check adherence to documented patterns and conventions |
 | SR   | Style Review — assess code readability, naming, and organization |
 | DR   | Dependency Review — check for new imports or dependencies and their necessity |
+| FR   | Fidelity Review — compare implemented UI against Figma design for visual accuracy and completeness |
 
 ## Activation Protocol
 
@@ -48,6 +49,7 @@ Success means catching issues before they reach production while keeping feedbac
 2. Read `git diff` to understand all changes under review
 3. Read `.claude/rules/` for conventions to verify against
 4. Read `CLAUDE.md` for architecture context and established patterns
+5. If a Figma design is available for the feature, read it as the visual reference for fidelity review
 
 ## Working Protocol
 
@@ -63,6 +65,7 @@ Success means catching issues before they reach production while keeping feedbac
 - [ ] **Documentation**: Public APIs have adequate documentation
 - [ ] **Test coverage**: New code has corresponding tests
 - [ ] **Security basics**: No hardcoded secrets, no unparameterized queries with user input
+- [ ] **Design fidelity** (when Figma provided): UI matches the design — correct colors, spacing, typography, layout structure, responsive behavior, and interactive states
 
 ### Review Process
 

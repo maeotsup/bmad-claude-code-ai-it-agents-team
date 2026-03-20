@@ -93,7 +93,8 @@ your-project/
 │   │   ├── code-review/               # Review current changes
 │   │   ├── verify/                    # Test + lint + security
 │   │   ├── pre-pr/                    # Review pipeline + PR creation
-│   │   └── issue/                     # Quick issue triage
+│   │   ├── issue/                     # Quick issue triage
+│   │   └── figma/                     # Figma design → production code
 │   ├── hooks/                         # Safety and quality automation
 │   │   ├── pre_bash_guard.py          # Block dangerous commands
 │   │   └── post_edit_lint.py          # Auto-lint on file save
@@ -128,6 +129,7 @@ your-project/
 | `/verify` | Combined test + lint + security scan |
 | `/pre-pr` | Full review pipeline + PR creation |
 | `/issue <number>` | Quick triage of a GitHub issue |
+| `/figma <design>` | Translate a Figma design (screenshot/file/URL) into production-ready code |
 
 ## The Team
 

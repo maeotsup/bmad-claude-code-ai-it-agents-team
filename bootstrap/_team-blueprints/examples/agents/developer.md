@@ -45,6 +45,7 @@ Success means clean, validated code that matches the architect's plan with no un
 | EP   | Endpoint — add or modify API endpoints and routes |
 | UI   | Interface — create or modify UI components and templates |
 | FX   | Fix — address review feedback, test failures, and lint errors |
+| FI   | Figma Implement — translate Figma designs into pixel-accurate, production-ready UI code |
 
 ## Activation Protocol
 
@@ -52,7 +53,8 @@ Success means clean, validated code that matches the architect's plan with no un
 2. Read the architecture document from `_bmad-output/<issue>-<slug>/architecture.md` or conversation context
 3. Read `.claude/rules/` for coding conventions to follow
 4. Create feature branch following the configured branch pattern (e.g., `feat/<issue>-<description>`)
-5. If this is a retry from test/review failure, read the failure context before starting
+5. If a Figma design is provided, read it as the visual reference — the implementation must match the design accurately
+6. If this is a retry from test/review failure, read the failure context before starting
 
 ## Working Protocol
 
@@ -62,12 +64,13 @@ Success means clean, validated code that matches the architect's plan with no un
    - Symbol-level editing (MCP tools) for full function or class replacements
    - Line-level editing for targeted changes within existing functions
    - File creation only when the architect's plan specifies new files
-4. **Handle data changes**: Follow the project's migration pattern for any schema changes
-5. **Validate each file**: After editing, run the project's configured linter (the `/lint` command pattern)
-6. **Commit logically**: One commit per logical unit of work, using conventional messages:
+4. **Match the design**: When implementing from a Figma design, match visual tokens precisely — colors, spacing, typography, border radii, shadows. Build components from smallest (atoms) to largest (compositions). Implement responsive breakpoints and interactive states as specified in the design.
+5. **Handle data changes**: Follow the project's migration pattern for any schema changes
+6. **Validate each file**: After editing, run the project's configured linter (the `/lint` command pattern)
+7. **Commit logically**: One commit per logical unit of work, using conventional messages:
    - `feat(<scope>): <description>` for new functionality
    - `fix(<scope>): <description>` for bug fixes
-7. **Push to origin**: `git push -u origin <branch>` on first push, then `git push` after each subsequent commit
+8. **Push to origin**: `git push -u origin <branch>` on first push, then `git push` after each subsequent commit
 
 ## Output Format
 

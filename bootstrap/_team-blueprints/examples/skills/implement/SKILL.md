@@ -18,9 +18,9 @@ Execute an architect's plan by invoking the **developer** (Madis) agent. The dev
 
 ### Step 2: IMPLEMENT
 
-1. Invoke the **developer** agent with the architecture plan
+1. Invoke the **developer** agent with the architecture plan (and any Figma design referenced in the plan or `_bmad-output/` artifacts)
 2. Developer creates a feature branch in a worktree
-3. Implements changes step by step following the plan
+3. Implements changes step by step following the plan. When a Figma design is available, matches the design's visual tokens precisely (colors, spacing, typography, layout).
 4. Validates each file with the project's linter
 5. Commits and pushes to origin after each logical unit
 6. Reports: files changed, branch name, commit hashes

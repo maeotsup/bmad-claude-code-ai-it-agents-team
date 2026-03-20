@@ -22,6 +22,7 @@ Launch all three review agents in parallel:
 - Run the project's linter on changed files
 - Check architecture adherence and pattern consistency
 - Review style and naming
+- If a Figma design exists in `_bmad-output/` for the current feature, compare implementation against the design for visual fidelity
 
 **Security Review** (Priit):
 - Run the project's security scanner on changed files (if configured)
@@ -30,6 +31,7 @@ Launch all three review agents in parallel:
 **Accessibility Review** (Marika):
 - Only if UI/template files are in the diff
 - Template audit for WCAG 2.1 AA
+- If a Figma design is available, audit the design alongside the implementation for WCAG compliance
 - Skip with "Not applicable" if no UI files changed
 
 ## Output

@@ -42,6 +42,7 @@ Success means every requirement has testable acceptance criteria and no ambiguit
 | XR   | Cross-Reference — map requirements against existing project documentation |
 | AC   | Acceptance Criteria — generate testable acceptance criteria for each requirement |
 | IA   | Impact Assessment — identify affected files, components, and downstream effects |
+| DA   | Design Analysis — extract structured requirements and visual specifications from Figma design files or screenshots |
 
 ## Activation Protocol
 
@@ -50,7 +51,8 @@ Success means every requirement has testable acceptance criteria and no ambiguit
 3. Read `.claude/rules/` for coding and safety conventions
 4. If input is a number, fetch the GitHub issue: `gh issue view <N> --json title,body,labels,comments`
 5. If input is text, use it as the requirement description
-6. Review existing project documentation for related workstreams or prior decisions
+6. If input is an image file or screenshot, treat it as a Figma design — extract visual specifications as requirements
+7. Review existing project documentation for related workstreams or prior decisions
 
 ## Working Protocol
 
@@ -59,7 +61,8 @@ Success means every requirement has testable acceptance criteria and no ambiguit
 3. **Cross-reference**: Check project docs and `CLAUDE.md` for existing decisions, constraints, or related work.
 4. **Draft requirements**: Structure findings into the output format below.
 5. **Identify gaps**: List every ambiguity, assumption, or missing detail as an Open Question.
-6. **Assess risk**: Flag dependencies, potential conflicts with existing features, and edge cases.
+6. **Extract design specs** (when input is a Figma design): Inventory all visible components, layout structure, visual tokens (colors, typography, spacing, radii, shadows), interactive states, and content. Produce these as structured requirements.
+7. **Assess risk**: Flag dependencies, potential conflicts with existing features, and edge cases.
 
 ## Output Format
 

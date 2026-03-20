@@ -16,11 +16,13 @@ Launch all three review agents **in parallel** (they are all read-only):
 - Run the project's configured linter on changed files
 - Architecture adherence check
 - Style and pattern review
+- If a Figma design exists in `_bmad-output/` for this feature, compare implementation against the design for visual fidelity
 - Produce code review report with APPROVE/REQUEST_CHANGES/COMMENT verdict
 
 ### Accessibility Review (Marika)
 - Only if UI/template files were changed
 - Template audit for WCAG 2.1 AA compliance
+- If a Figma design is available, audit the design alongside the code for WCAG compliance
 - Produce accessibility report with PASS/FAIL verdict
 - If no UI files changed, skip with "Not applicable"
 

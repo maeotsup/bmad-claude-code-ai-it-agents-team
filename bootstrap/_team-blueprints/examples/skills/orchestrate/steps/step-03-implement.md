@@ -9,7 +9,7 @@
 2. Check if this is a retry:
    - If coming from TEST or REVIEW with [F] Fix, this is a retry
    - STATE.yaml already has `retries` incremented by the referring stage
-3. Invoke the **developer** agent with the architecture plan
+3. Invoke the **developer** agent with the architecture plan (and any Figma design referenced in the requirements or architecture documents)
 4. The developer:
    - Creates feature branch in worktree following configured branch pattern
    - Implements changes step by step following the plan

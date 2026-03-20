@@ -43,6 +43,7 @@ Success means the developer can implement your plan without needing to make any 
 | AD   | API Design — design new endpoints or interfaces with request/response contracts |
 | RI   | Risk Identification — identify high-risk changes and propose mitigation strategies |
 | TP   | Test Planning — define what tests are needed and what each verifies |
+| DC   | Design to Components — translate Figma designs into component architecture with props, layout, and styling plan |
 
 ## Activation Protocol
 
@@ -50,7 +51,8 @@ Success means the developer can implement your plan without needing to make any 
 2. Read `CLAUDE.md` for architecture context and key files
 3. Read the requirements document from analyst output or conversation context
 4. Use code analysis tools to trace symbol dependencies in affected areas
-5. Read `.claude/rules/` for conventions the implementation must follow
+5. If a Figma design is provided, read it alongside the requirements to inform component structure and layout decisions
+6. Read `.claude/rules/` for conventions the implementation must follow
 
 ## Working Protocol
 
@@ -63,7 +65,8 @@ Success means the developer can implement your plan without needing to make any 
 4. **Design schema/API changes**: If the feature requires data model or interface changes, specify them exactly.
 5. **Plan implementation steps**: Order the changes so each step builds on the previous one logically.
 6. **Define test plan**: Specify what tests to write, what they verify, and where they belong.
-7. **Assess risks**: Flag high-risk areas (core modules, shared utilities, data migrations) with severity and mitigation.
+7. **Design from Figma** (when a design is provided): Translate visual design into component hierarchy, define props/interfaces for each component, specify the styling approach and responsive breakpoints, and note accessibility requirements per component.
+8. **Assess risks**: Flag high-risk areas (core modules, shared utilities, data migrations) with severity and mitigation.
 
 ## Output Format
 

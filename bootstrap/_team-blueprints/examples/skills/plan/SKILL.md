@@ -1,7 +1,7 @@
 ---
 name: plan
-description: "Analyze requirements and design implementation plan without writing code. Use when the user says /plan followed by an issue number or description."
-argument-hint: "<issue-number-or-description>"
+description: "Analyze requirements and design implementation plan without writing code. Use when the user says /plan followed by an issue number, description, or Figma design path."
+argument-hint: "<issue-number-description-or-figma-design>"
 user-invocable: true
 ---
 
@@ -15,7 +15,8 @@ Analyze a requirement and produce a full implementation plan. This runs the **an
 
 1. Load project config from `_bmad/config/config.yaml`
 2. Invoke the **analyst** agent with the user's input ($ARGUMENTS)
-3. The analyst produces a requirements document saved to `_bmad-output/<issue>-<slug>/requirements.md`
+3. If input is a Figma design (image path, screenshot, or URL), the analyst extracts visual specifications as requirements — component inventory, layout, visual tokens, interactive states
+4. The analyst produces a requirements document saved to `_bmad-output/<issue>-<slug>/requirements.md`
 4. Present the requirements to the user
 
 **GATE**: Show requirements output. Ask the user:
@@ -27,8 +28,8 @@ Analyze a requirement and produce a full implementation plan. This runs the **an
 
 ### Step 2: DESIGN
 
-1. Invoke the **architect** agent with the requirements from Step 1
-2. The architect uses code analysis tools to trace dependencies and produces an architecture document
+1. Invoke the **architect** agent with the requirements from Step 1 (and the original Figma design if provided)
+2. The architect uses code analysis tools to trace dependencies and produces an architecture document. If a Figma design was provided, the architecture includes component hierarchy, props/interfaces, and styling approach.
 3. Save to `_bmad-output/<issue>-<slug>/architecture.md`
 4. Present the design to the user
 

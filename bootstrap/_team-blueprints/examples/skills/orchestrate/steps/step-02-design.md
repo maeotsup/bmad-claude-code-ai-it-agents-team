@@ -6,7 +6,7 @@
 ## Execution
 
 1. Read the requirements from `_bmad-output/<issue>-<slug>/requirements.md`
-2. Invoke the **architect** agent with the requirements
+2. Invoke the **architect** agent with the requirements (and any Figma design referenced in the requirements or provided as input)
 3. The architect:
    - Uses code analysis tools to trace symbol dependencies
    - Identifies files to modify with specific locations

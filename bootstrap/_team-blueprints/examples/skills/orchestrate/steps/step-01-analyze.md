@@ -22,7 +22,7 @@
    cancelled_reason: null
    agents_completed: []
    ```
-3. Invoke the **analyst** agent with the input (issue number or description)
+3. Invoke the **analyst** agent with the input (issue number, description, or Figma design). If a Figma design is attached or referenced, the analyst extracts visual specifications as structured requirements.
 4. The analyst produces a structured requirements document
 5. Save output to `_bmad-output/<issue>-<slug>/requirements.md`
 6. Update STATE.yaml: add `analyst` to `agents_completed`

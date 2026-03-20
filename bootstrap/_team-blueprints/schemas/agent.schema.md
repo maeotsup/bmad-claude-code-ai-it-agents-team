@@ -131,13 +131,13 @@ To prevent collisions, each agent has a reserved code namespace:
 
 | Agent | Reserved Codes |
 |-------|---------------|
-| analyst | RA, QT, XR, AC, IA |
-| architect | DP, ST, SD, AD, RI, TP |
-| developer | IM, MG, EP, UI, FX |
+| analyst | RA, QT, XR, AC, IA, DA |
+| architect | DP, ST, SD, AD, RI, TP, DC |
+| developer | IM, MG, EP, UI, FX, FI |
 | tester | WT, RT, RG, DG, TF |
-| code-reviewer | LR, AR, SR, DR |
+| code-reviewer | LR, AR, SR, DR, FR |
 | security-reviewer | AS, MR, IR, AU, SC |
-| accessibility | TA, LA, KA, CA, SA |
+| accessibility | TA, LA, KA, CA, SA, FA |
 | release | VF, BR, PR, MC |
 
 ### 6. Activation Protocol (required, numbered steps)
