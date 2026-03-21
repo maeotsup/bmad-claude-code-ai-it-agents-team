@@ -94,15 +94,20 @@ your-project/
 │   │   ├── verify/                    # Test + lint + security
 │   │   ├── pre-pr/                    # Review pipeline + PR creation
 │   │   ├── issue/                     # Quick issue triage
-│   │   └── figma/                     # Figma design → production code
+│   │   ├── figma/                     # Figma design → production code
+│   │   ├── debug/                     # Investigation-first bug resolution
+│   │   ├── hotfix/                    # Emergency fast-track fix
+│   │   ├── propose/                   # Async client communication via issue comments
+│   │   └── resume/                    # Continue after client feedback
 │   ├── hooks/                         # Safety and quality automation
 │   │   ├── pre_bash_guard.py          # Block dangerous commands
 │   │   └── post_edit_lint.py          # Auto-lint on file save
 │   ├── settings.json                  # Hook wiring
 │   └── settings.local.json            # Permission whitelist
 ├── _bmad/
-│   └── config/
-│       └── config.yaml                # Project metadata and model routing
+│   ├── config/
+│   │   └── config.yaml                # Project metadata and model routing
+│   └── debug-history/                 # Bug investigation summaries for pattern detection
 └── _bmad-output/                      # Pipeline artifacts (per-issue subdirectories)
 ```
 
@@ -130,6 +135,10 @@ your-project/
 | `/pre-pr` | Full review pipeline + PR creation |
 | `/issue <number>` | Quick triage of a GitHub issue |
 | `/figma <design>` | Translate a Figma design (screenshot/file/URL) into production-ready code |
+| `/debug <issue>` | Investigation-first bug resolution: triage → investigate → fix → verify → PR |
+| `/hotfix <issue>` | Emergency fast-track fix when root cause is known: fix → verify → PR |
+| `/propose <issue>` | Post analysis + design as GitHub issue comments for async client review |
+| `/resume <issue>` | Continue pipeline after client feedback on a `/propose` plan |
 
 ## The Team
 

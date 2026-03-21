@@ -39,6 +39,29 @@ branch_patterns:
   hotfix: "hotfix/{issue}-{description}"
 ```
 
+### Optional Fields
+
+```yaml
+debug:
+  history_dir: _bmad/debug-history    # Where debug investigation summaries are stored
+  container_debug:                     # Container debugging support (auto-detected from deployment)
+    compose_file: ""                   # docker-compose file path (empty = auto-detect)
+    debug_overrides: ""                # docker-compose override file with debug/verbose flags
+
+async:
+  enabled: false                       # Whether /propose and /resume async workflows are available
+  comment_prefix: "## "               # Prefix for agent comments on GitHub issues
+  approval_signals:                    # How the client signals approval in issue comments
+    - "LGTM"
+    - "Approved"
+    - "Looks good"
+```
+
+### Rules for Optional Fields
+- `debug.history_dir`: Created by `/setup` if debug workflows are enabled. Entries are kept indefinitely.
+- `debug.container_debug`: Only populated when `deployment` includes containers. The investigate step auto-detects container config if fields are empty.
+- `async`: Only relevant when using `/propose` and `/resume` workflows. The `approval_signals` list is case-insensitive.
+
 ---
 
 ## settings.json
@@ -106,7 +129,9 @@ Located at `.claude/settings.local.json`. Permission whitelist and MCP server co
 
 ### Rules
 - Include universal git permissions (add, commit, push)
+- Include GitHub CLI permissions for issue interaction (`gh issue view`, `gh issue comment`)
 - Include stack-specific tool permissions from stack knowledge files
+- If container debugging is configured, include container log permissions (e.g., `docker compose logs`)
 - Add MCP server configuration if MCP servers are available:
   ```json
   {
@@ -130,9 +155,9 @@ Located at project root. Project-specific technical reference loaded into every 
 4. **Running Locally** — Dev server, build, and Docker commands
 5. **Running Tests** — Test command with filtering options
 6. **Conventions** — Summary of key conventions (not duplicating rules files)
-7. **Custom Slash Commands** — Tables for tool commands and SDLC pipeline commands
+7. **Custom Slash Commands** — Tables for tool commands, SDLC pipeline commands, and debug/hotfix commands
 8. **SDLC Agents** — Team roster table
-9. **SDLC Artifacts** — Artifact directory paths
+9. **SDLC Artifacts** — Artifact directory paths (including `_bmad/debug-history/`)
 
 ### Rules
 - Keep under 200 lines — this is loaded into every conversation context
